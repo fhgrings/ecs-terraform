@@ -47,10 +47,12 @@ jobs:
           })
 
 
-    - name: Install Terraform
+    - name: Check Terraform Version
       run: |
         terraform --version
-    
+    - name: Check Terragrunt Version
+      run: |
+        terragrunt --version
     # - name: Run terragrunt
     #   run: |
     #     terragrunt run-all apply --terragrunt-non-interactive
