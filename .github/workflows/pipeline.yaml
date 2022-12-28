@@ -50,9 +50,10 @@ jobs:
     - name: Check Terraform Version
       run: |
         terraform --version
-    - name: Check Terragrunt Version
-      run: |
-        terragrunt --version
-    # - name: Run terragrunt
-    #   run: |
-    #     terragrunt run-all apply --terragrunt-non-interactive
+    - name: Setup Terragrunt
+      uses: autero1/action-terragrunt@v1.1.0
+      with:
+        terragrunt_version: 0.42.5
+        
+    - name: Interact with Terragrunt
+      run: terragrunt --version   
