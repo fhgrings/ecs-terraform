@@ -19,8 +19,8 @@ jobs:
 
     - name: Install Terraform - Terragrunt
       run: |
-        apt update
-        apt install -y terraform terragrunt
+        sudo apt update
+        sudo apt install -y terraform terragrunt
     
     - name: Run terragrunt
       run: |
