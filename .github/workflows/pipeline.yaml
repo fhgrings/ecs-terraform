@@ -62,3 +62,6 @@ jobs:
       run: |
         ls -al
         cd terragrunt && terragrunt run-all apply --terragrunt-non-interactive
+      env:
+        AWS_ACCESS_KEY_ID: ${{AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{AWS_SECRET_ACCESS_KEY}}
