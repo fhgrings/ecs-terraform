@@ -1,0 +1,27 @@
+name: Lambda Deployment
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  setup-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      env-name: ${{ steps.env-name.outputs.environment }}
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Terraform - Terragrunt
+      run: |
+        apt update
+        apt install -y terraform terragrunt
+    
+    - name: Run terragrunt
+      run: |
+        terragrunt run-all apply --terragrunt-non-interactive
