@@ -70,7 +70,7 @@ jobs:
           })
 
     - name: Terraform Apply
-      id: plan
+      id: apply
       if: github.event_name == 'pull_request'
       continue-on-error: true
       run: |
