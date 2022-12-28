@@ -33,8 +33,6 @@ jobs:
       id: plan
       if: github.event_name == 'pull_request'
       continue-on-error: true
-      outputs:
-        stdout: ${{ steps.step1.outputs.stdout }}
       run: |
         ls -al
         # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive
