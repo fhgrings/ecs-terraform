@@ -43,7 +43,7 @@ jobs:
       uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:
-        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        PLAN: "terraform\n${{ steps.plan.outputs.* }}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -71,7 +71,7 @@ jobs:
 
     - name: Terraform Apply
       id: apply
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'merge'
       continue-on-error: true
       run: |
         ls -al
