@@ -44,6 +44,8 @@ jobs:
 
     - run: |
         echo "Response is: ${{ steps.plan.outputs.stdout }}"
+      env:
+        PLAN: "terraform\n${{join(steps.plan.outputs.*, '\n')}}"
 
     - name: Update Pull Request
       uses: actions/github-script@v6
