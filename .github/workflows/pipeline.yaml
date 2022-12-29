@@ -35,7 +35,7 @@ jobs:
       continue-on-error: true
       run: | 
         stdout=$(ls -al)
-        echo stdout=$stdout >> $GITHUB_OUTPUT
+        echo stdout=$stdout >> out.txt
         # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
         # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive
       env:
@@ -43,9 +43,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - run: |
-        echo "Response is: ${{ steps.plan.outputs.stdout }}"
+        echo "Response is: $(cat out.txt)"
       env:
-        PLAN: "terraform\n${{join(steps.plan.outputs.*, '\n')}}"
+        PLAN: "terraform\n$(cat out.txt)"
 
     - name: Update Pull Request
       uses: actions/github-script@v6
