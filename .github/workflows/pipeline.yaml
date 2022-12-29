@@ -41,6 +41,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+    - run: |
+        echo "Response is: ${{ steps.plan.outputs.stdout }}"
+        
     - name: Update Pull Request
       uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
