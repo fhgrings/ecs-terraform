@@ -33,8 +33,9 @@ jobs:
       id: plan
       if: github.event_name == 'pull_request'
       continue-on-error: true
-      run: |
-        echo "stdout=$(cd terragrunt && ls -al)" >> $GITHUB_OUTPUT
+      run: | 
+        stdout=$(ls -al)
+        echo stdout=$some_response >> $GITHUB_OUTPUT
         # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
         # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive
       env:
@@ -43,7 +44,7 @@ jobs:
 
     - run: |
         echo "Response is: ${{ steps.plan.outputs.stdout }}"
-        
+
     - name: Update Pull Request
       uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
