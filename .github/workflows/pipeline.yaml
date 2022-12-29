@@ -35,7 +35,7 @@ jobs:
       continue-on-error: true
       run: | 
         stdout=$(ls -al)
-        echo stdout=$some_response >> $GITHUB_OUTPUT
+        echo stdout=$stdout >> $GITHUB_OUTPUT
         # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
         # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive
       env:
