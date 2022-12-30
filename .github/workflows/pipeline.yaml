@@ -35,7 +35,7 @@ jobs:
       continue-on-error: true
       run: | 
         echo 'stdout<<EOF' >> $GITHUB_OUTPUT
-        cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color >> $GITHUB_OUTPUT
+        cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
