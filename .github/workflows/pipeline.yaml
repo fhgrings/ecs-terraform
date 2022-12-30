@@ -37,27 +37,28 @@ jobs:
     - name: Terraform Plan
       id: plan
       if: github.event_name == 'pull_request'
-      run: cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color
-
-    # - name: Terraform Plan
-    #   id: plan
-    #   if: github.event_name == 'pull_request'
-    #   continue-on-error: true
-    #   run: | 
-    #     stdout="$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color)"
-    #     echo stdout=$stdout >> $GITHUB_OUTPUT
-    #     # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
-    #     # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color
+      continue-on-error: true
+      run: | 
+        stdout="$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color)"
+        stdout="${stdout//$'\n'/'%0A'}"
+        echo stdout=$stdout >> $GITHUB_OUTPUT
+        # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
+        # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+    - run: |
+        echo "Response is: ${{ format('{0}{1}', steps.plan.outputs.stdout, steps.plan.outputs.stderr) }}"
+      env:
+          # PLAN: "terraform\n${{steps.plan.outputs.stdout}}"
+          # PLAN: "terraform\n${{join(steps.plan.outputs.*, '\n')}}"
     - name: Update Pull Request
       uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:
         # PLAN: "terraform\n${{steps.plan.outputs.stdout}}"
-        PLAN: "terraform\n${{steps.plan.outputs.stdout}}"
+        PLAN: "terraform\n${{join(steps.plan.outputs.*, '\n')}}"
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
