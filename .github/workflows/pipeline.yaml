@@ -34,19 +34,9 @@ jobs:
       if: github.event_name == 'pull_request'
       continue-on-error: true
       run: | 
-        run: |
         echo 'stdout<<EOF' >> $GITHUB_OUTPUT
         cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
-
-        # stdout="$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color)"
-        # stdout="${stdout//$'%'/%25}"
-        # stdout="${stdout//$'\n'/%0A}"
-        # stdout="${stdout//$'\r'/%0D}"
-
-        # echo stdout=$stdout >> $GITHUB_OUTPUT
-        # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
-        # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -65,9 +55,13 @@ jobs:
           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
           #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
 
+          <details><summary>Show Plan</summary>
 
+          \`\`\`\n
           ${process.env.PLAN}
+          \`\`\`
 
+          </details>
 
           *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
