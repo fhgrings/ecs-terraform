@@ -35,7 +35,9 @@ jobs:
       continue-on-error: true
       run: | 
         stdout="$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color)"
-        stdout="${stdout//$'\n'/'%0A'}"
+        stdout="${stdout//$'%'/%25}"
+        stdout="${stdout//$'\n'/%0A}"
+        stdout="${stdout//$'\r'/%0D}"
         echo stdout=$stdout >> $GITHUB_OUTPUT
         # echo "stdout=$(cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive)" >> $GITHUB_OUTPUT
         # cd terragrunt && terragrunt run-all plan -lock=false -input=false --terragrunt-non-interactive -no-color
